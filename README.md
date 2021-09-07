@@ -10,6 +10,7 @@ Scraping `$HuntInstallDirectory\user\profiles\default\attributes.xml` for inform
 * Finish rough draft of schema
 * Main function to return the data in a sensible way. JSON?
   - How do we tell who the player is? We can easily tell what team they're on, but not who they are. Does it matter?
+    * can we use `Get-ItemProperty -Path HKCU:\SOFTWARE\Valve\Steam -Name LastGameNameUsed`? Probably!
   - How do we tell who is on which team?
 * Function to write the data
 * Function to check whether the match data has changed (file is updated more frequently than after every match)
