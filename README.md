@@ -19,11 +19,11 @@ Scraping `$HuntInstallDirectory\user\profiles\default\attributes.xml` for inform
 * Maybe something to plot a couple of quick graphs (MMR distribution of players in last match, your MMR over time, etc)
 
 ## Example data structure
-```
+```json
 [
   {
-    matchTime: "2021-09-07T00:02:48+00:00",
-    matchNumber: 247,
+    matchTime: "2021-09-07T00:02:48+00:00",   #can only be calculated when watching file for changes(?)
+    matchNumber: 247,                         #can only be calculated when writing to a store(?)
     bosses: {
       butcher: {
         kill: true,
