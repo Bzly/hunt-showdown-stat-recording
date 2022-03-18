@@ -90,19 +90,19 @@ function ConvertFrom-HuntAttributes {
         Where-Object {[int]($_.Name -replace '^.*_') -in 0..($NumMissEnt-1)}
 
     # Use MissionBag grouped data to return one key (Key) based on the value (Equals) of another key (ConditionKey)
-    [int]$Bounty = $MissBag | HuntGetCondValues -Key "rewardSize" -ConditionKey "reward" -Equals "0" | `
+    [int]$Bounty = HuntGetCondValues -GroupedAttr $MissBag -Key "rewardSize" -ConditionKey "reward" -Equals "0" | `
         Measure-Object -Property value -Sum | Select -ExpandProperty Sum
-    [int]$XP = $MissBag | HuntGetCondValues -Key "rewardSize" -ConditionKey "reward" -Equals "2" | `
+    [int]$XP = HuntGetCondValues -GroupedAttr $MissBag -Key "rewardSize" -ConditionKey "reward" -Equals "2" | `
         Measure-Object -Property value -Sum | Select -ExpandProperty Sum
-    [int]$Dollars = $MissBag | HuntGetCondValues -Key "rewardSize" -ConditionKey "reward" -Equals "4" | `
+    [int]$Dollars = HuntGetCondValues -GroupedAttr $MissBag -Key "rewardSize" -ConditionKey "reward" -Equals "4" | `
         Measure-Object -Property value -Sum | Select -ExpandProperty Sum
-    [int]$BloodBonds = $MissBag | HuntGetCondValues -Key "rewardSize" -ConditionKey "reward" -Equals "fillme" | `  # TBD
+    [int]$BloodBonds = HuntGetCondValues -GroupedAttr $MissBag -Key "rewardSize" -ConditionKey "reward" -Equals "fillme" | `
         Measure-Object -Property value -Sum | Select -ExpandProperty Sum
     
     $XP += 4*$Bounty; $Dollars += $Bounty                                               # adjust for bounty rewarding xp/money
 
-    [int]$Assists = ($MissBag | HuntGetCondValues -Key "amount" -ConditionKey "category" `
-        -Equals "accolade_players_killed_assist").value                                 # can only ever return one entry
+    [int]$Assists = (HuntGetCondValues -GroupedAttr $MissBag -Key "amount" `
+        -ConditionKey "category" -Equals "accolade_players_killed_assist").value        # can only ever return one entry
 
     # Populate team data
     # Feels like there's probably a smart, recursive way to do this... but it's 4AM
@@ -151,7 +151,7 @@ function ConvertFrom-HuntAttributes {
 # Helper function, not exported
 function HuntGetCondValues {
     Param (
-        [Parameter(Mandatory=$true,ValueFromPipeline)]
+        [Parameter(Mandatory=$true)]
         [array]$GroupedAttr, 
         [Parameter(Mandatory=$true)]
         [string]$Key,
