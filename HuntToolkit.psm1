@@ -139,7 +139,7 @@ function ConvertFrom-HuntAttributes {
             deaths = [int]($TeamData.players.killedme | Measure-Object -Sum).Sum
             assists = $Assists
             revives = 69
-            survived = [System.Convert]::ToBoolean(($Attr | Where-Object {$_.name -eq "MissionBagIsHunterDead"}).value)
+            survived = ![System.Convert]::ToBoolean(!($Attr | Where-Object {$_.name -eq "MissionBagIsHunterDead"}).value)
         }
         teams = $TeamData
     }
