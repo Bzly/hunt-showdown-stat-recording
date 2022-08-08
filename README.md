@@ -38,6 +38,7 @@ Currently provides the following functions:
   - Add clues discovered
   - Work out how to tell match length
   - Find out more `MissionBagEntry_<i>_reward` types (including Blood Bonds)
+  - Fix XP received calculation (but this is quite obtuse)
     * Validate current methods
 * Function to write the data to storage
   - As an array of JSON objects, each representing a match (?)
