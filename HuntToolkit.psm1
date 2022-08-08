@@ -147,6 +147,30 @@ function ConvertFrom-HuntAttributes {
     if (-not $Object) {return $Out | ConvertTo-Json -Depth 100} else {return $Out}
 }
 
+function Get-HuntTeamMmr {
+    $t = (ConvertFrom-HuntAttributes -Object).teams | Where-Object {$_.ownteam -eq $true}
+    $Out = @()
+    $t.players | % {
+        $Out += [PSCustomObject]@{Name = $_.blood_line_name; MMR = $_.mmr}
+    }
+    Write-Host "Team MMR was $($t.mmr)"
+    return $Out | Sort-Object MMR -Descending
+}
+
+function Get-HuntAllMmr {
+    $ts = (ConvertFrom-HuntAttributes -Object).teams
+    $Out = @(); $TeamSum = @()
+    foreach ($t in $ts) {
+        $TeamSum += [PSCustomObject]@{Team = "Team $($t.id)"; MMR = $t.mmr; Players = $t.numplayers; Premade = $t.isinvite}
+        if ($t.ownteam) {$TeamSum[-1].Team += " (own)"}
+        $t.players | % {
+            $Out += [PSCustomObject]@{Name = $_.blood_line_name; Team = $t.id; MMR = $_.mmr}
+        }
+    }
+    $TeamSum | ft
+    return $Out | Sort-Object MMR -Descending
+}
+
 # Use MissionBag grouped data to return one key (Key) based on the value (Equals) of another key (ConditionKey)
 # Helper function, not exported
 function HuntGetCondValues {
