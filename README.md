@@ -10,6 +10,8 @@ Scraping `$HuntInstallDirectory\user\profiles\default\attributes.xml` for inform
 Currently provides the following functions:
 * Hunt:
   - **`ConvertFrom-HuntAttributes`** - parses the above and returns the JSON output below (or as an ordered dict if passed `-Object`)
+  - **`Get-HuntAllMmr`** - returns a list of teams and players in the game and their MMR.
+  - **`Get-HuntTeamMmr`** - returns a list of only the players on your team and their MMR. 
   - `Get-HuntAttributes` - returns an array of XmlElements from attributes.xml. Only useful if you want the raw data for some reason.
   - 2x helper functions which are not exported
 * Steam:
